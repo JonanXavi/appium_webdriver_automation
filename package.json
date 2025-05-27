@@ -1,0 +1,26 @@
+{
+  "name": "appium_webdriver_automation",
+  "version": "1.0.0",
+  "description": "Mobile automation project with webdriver",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webdriver",
+    "appium",
+    "typescript",
+    "automation"
+  ],
+  "author": "Jonathan Fernández",
+  "license": "ISC",
+  "devDependencies": {
+    "@wdio/allure-reporter": "^9.14.0",
+    "@wdio/appium-service": "^9.14.0",
+    "@wdio/cli": "^9.14.0",
+    "@wdio/local-runner": "^9.14.0",
+    "@wdio/mocha-framework": "^9.14.0",
+    "appium-uiautomator2-driver": "^4.2.3",
+    "wdio-wait-for": "^3.1.0"
+  }
+}
