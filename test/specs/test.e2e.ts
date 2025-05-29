@@ -1,15 +1,33 @@
-import { expect } from '@wdio/globals'
-import LoginPage from '../pageobjects/login.page'
-import SecurePage from '../pageobjects/secure.page'
+//!import { expect } from '@wdio/globals'
+import { AllureHelper } from '../../utils/helpers.ts'
 
-describe('My Login application', () => {
-    it('should login with valid credentials', async () => {
-        await LoginPage.open()
+describe('Test the configuration - AVD', () => {
+    it('Test environment - PASS', async () => {
+        await AllureHelper.step('Enter the required information in the "Login" form', async () => {
+            await $('~test-Username').setValue('standard_user');
+            await $('~test-Password').setValue('secret_sauce');
+        })
 
-        await LoginPage.login('tomsmith', 'SuperSecretPassword!')
-        await expect(SecurePage.flashAlert).toBeExisting()
-        await expect(SecurePage.flashAlert).toHaveText(
-            expect.stringContaining('You logged into a secure area!'))
+        await AllureHelper.step('Click the "Login" button in the form', async () => {
+            await $('~test-LOGIN').click();
+        })
+
+        await new Promise(resolve => setTimeout(resolve, 5000));
+    })
+
+    it('Test environment - FAIL', async () => {
+        await AllureHelper.step('Enter the required information in the "Login" form', async () => {
+            await $('~test-Username').setValue('standard_user');
+            await $('~test-Password').setValue('secret_sauce');
+        })
+
+        await AllureHelper.step('Click the "Login" button in the form', async () => {
+            await $('~test-LOGIN').click();
+        })
+
+        await AllureHelper.step('Clic titulo', async () => {
+            await $('~test-title').click();
+        })
     })
 })
 
