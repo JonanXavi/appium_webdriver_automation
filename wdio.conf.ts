@@ -1,8 +1,7 @@
-import 'dotenv/config';
+import { ENV } from './utils/env';
 import { resolve } from 'path';
 import fs from 'fs';
 import allure from '@wdio/allure-reporter';
-import { restartApp } from './utils/helpers.ts';
 
 const videoDir = resolve(__dirname, 'videos');
 if (!fs.existsSync(videoDir)) {
@@ -14,8 +13,8 @@ export const config: WebdriverIO.Config = {
     runner: 'local',
     tsConfigPath: './tsconfig.json',
 
-    hostname: process.env.APPIUM_HOST,
-    port: parseInt(process.env.APPIUM_PORT || '4723'),
+    hostname: ENV.HOST,
+    port: parseInt(ENV.PORT || '4723'),
 
     specs: [
         './test/specs/**/*.ts'
@@ -27,15 +26,15 @@ export const config: WebdriverIO.Config = {
     maxInstances: 1,
     capabilities: [{
         platformName: 'Android',
-        'appium:deviceName': process.env.DEVICE_NAME,
-        'appium:udid': process.env.DEVICE_UDID,
-        'appium:automationName': process.env.AUTOMATION_NAME,
-        'appium:appPackage': process.env.APP_PACKAGE,
-        'appium:appWaitPackage': process.env.APP_PACKAGE,
-        'appium:appActivity': process.env.APP_ACTIVITY,
-        'appium:avd': process.env.DEVICE_NAME,
+        'appium:deviceName': ENV.DEVICE,
+        'appium:udid': ENV.UDID,
+        'appium:automationName': ENV.DRIVER,
+        'appium:appPackage': ENV.PACKAGE,
+        'appium:appWaitPackage': ENV.PACKAGE,
+        'appium:appActivity': ENV.ACTIVITY,
+        'appium:avd': ENV.DEVICE,
         'appium:avdLaunchTimeout': 120000,
-        'appium:app': resolve(__dirname, 'apps', process.env.APP || 'android-saucelabs.apk'),
+        'appium:app': resolve(__dirname, 'apps', ENV.APP || 'android-saucelabs.apk'),
         'appium:autoGrantPermissions': true,
         'appium:noReset': false
     }],
@@ -56,15 +55,16 @@ export const config: WebdriverIO.Config = {
     ],
     mochaOpts: {
         ui: 'bdd',
-        timeout: 60000
+        timeout: 60000,
+        retries: 1,
+        bail: false
     },
 
     beforeTest: async function () {
-        await restartApp(process.env.APP_PACKAGE);
         await driver.startRecordingScreen();
     },
 
-    afterTest: async function (test, context, { passed }) {
+    afterTest: async function (test, _context, { passed }) {
         const videoBase64 = await driver.stopRecordingScreen();
 
         if (!passed && videoBase64) {

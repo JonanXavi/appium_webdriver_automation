@@ -16,6 +16,7 @@
   "author": "Jonathan Fernández",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^9.9.0",
     "@wdio/allure-reporter": "^9.14.0",
     "@wdio/appium-service": "^9.14.0",
     "@wdio/cli": "^9.14.0",
