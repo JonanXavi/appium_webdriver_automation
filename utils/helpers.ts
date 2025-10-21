@@ -1,9 +1,13 @@
+import { ENV } from './env';
 import allure from '@wdio/allure-reporter';
 
-export async function restartApp(app: string) {
+export async function restartApp() {
+    const appPackage = ENV.PACKAGE;
+
     // @ts-ignore
-    await driver.terminateApp(app);
-    await driver.activateApp(app);
+    await driver.terminateApp(appPackage);
+    // @ts-ignore
+    await driver.activateApp(appPackage);
 }
 
 export class AllureHelper {
